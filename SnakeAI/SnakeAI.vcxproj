@@ -156,12 +156,14 @@
     <ClCompile Include="Recorder.cpp" />
     <ClCompile Include="RLIteration.cpp" />
     <ClCompile Include="SnakeAI.cpp" />
+    <ClCompile Include="TDTrainer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Environment.h" />
     <ClInclude Include="FileRecorder.h" />
     <ClInclude Include="Recorder.h" />
     <ClInclude Include="RLIteration.h" />
+    <ClInclude Include="TDTrainer.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

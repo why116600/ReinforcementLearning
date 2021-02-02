@@ -30,6 +30,9 @@
     <ClCompile Include="FileRecorder.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="TDTrainer.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Environment.h">
@@ -42,6 +45,9 @@
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="FileRecorder.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="TDTrainer.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>

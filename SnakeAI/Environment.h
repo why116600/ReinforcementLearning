@@ -23,6 +23,7 @@ public:
 	~Environment();
 	void Reset();
 	bool operator < (const Environment& target) const;
+	Environment& operator =(const Environment& target);
 	// 进行一次动作，并返回奖励值
 	int Step(int action);
 	// 当前状态是否终结了

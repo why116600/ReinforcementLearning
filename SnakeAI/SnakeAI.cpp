@@ -8,11 +8,46 @@
 #include "FileRecorder.h"
 #include "Environment.h"
 #include "RLIteration.h"
+#include "TDTrainer.h"
 
+
+void TrainWithTD(TDTrainer& td, int nSize, double ebsilon, double lr, int nIter = -1)
+{
+	int maxr = 0;
+	int r;
+	int n;
+	std::vector<Environment> envs;
+	for (int i = 0; i != nIter; i++)
+	{
+		n = 0;
+		Environment::AllInitiations(envs, nSize, nSize);
+		for (int j = 0; j < (int)envs.size(); j++)
+		{
+			r = td.ExpectSARSA(envs[j], ebsilon, lr);
+			if (r > maxr)
+			{
+				maxr = r;
+				printf("Got progress[%d] at iteration %d\n", r, i);
+			}
+			else if (r >= (nSize * nSize - 1))
+			{
+				//printf("Reach final at (%d,%d)\n", i, j);
+				n++;
+			}
+		}
+		if (n > 0)
+		{
+			printf("Iteration %d has %d final\n", i, n);
+		}
+		envs.clear();
+	}
+}
 
 
 int main(int argc,char *argv[])
 {
+	const double ebsilon = 0.1;
+	const double learn_rate = 0.1;
 	FileRecorder* pRecorder = NULL;
 	FILE* fp = NULL;
 	int a;
@@ -20,32 +55,34 @@ int main(int argc,char *argv[])
 	bool bLoad = false;
 	DWORD dwT1, dwT2;
 	RLIteration rl(3);
+	TDTrainer td;
 	if (argc > 1)
 	{
-		fp = fopen(argv[1], "r");
+		fp = fopen(argv[1], "rb");
 		if (fp)
 			pRecorder = new FileRecorder(fp);
 	}
 	if (fp)
 	{
-		bLoad = rl.Load(pRecorder);
+		bLoad = td.Load(pRecorder);
 		delete pRecorder;
 		fclose(fp);
 	}
 	dwT1 = GetTickCount();
-	if(!bLoad)
+	//if(!bLoad)
 	{
 		
-		rl.InterationWithModel(60, 0.0);
+		//rl.InterationWithModel(60, 0.0);
+		TrainWithTD(td, 3, ebsilon, learn_rate, 300);
 		dwT2 = GetTickCount();
 		printf("cost time:%u\n", dwT2 - dwT1);
 		if (argc > 1)
 		{
-			fp = fopen(argv[1], "w");
+			fp = fopen(argv[1], "wb");
 			if (fp)
 			{
 				pRecorder = new FileRecorder(fp);
-				rl.Save(pRecorder);
+				td.Save(pRecorder);
 				delete pRecorder;
 				fclose(fp);
 			}
@@ -57,7 +94,8 @@ int main(int argc,char *argv[])
 	env.Print();
 	while (!env.IsTerminated())
 	{
-		a = rl.GetAction(env);
+		//a = rl.GetAction(env);
+		a = td.GetAction(env, ebsilon);
 		if (a < 0)
 			break;
 		round++;

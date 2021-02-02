@@ -68,6 +68,20 @@ bool Environment::operator < (const Environment& target) const
 	return false;
 }
 
+Environment& Environment::operator =(const Environment& target)
+{
+	int len;
+	m_width = target.m_width;
+	m_height = target.m_height;
+	m_bDead = target.m_bDead;
+	m_food = target.m_food;
+	len = m_width * m_height;
+	//m_map = new int[len];
+	m_aSnake = target.m_aSnake;
+	memcpy(m_map, target.m_map, sizeof(int) * len);
+	return *this;
+}
+
 void Environment::Reset()
 {
 	int pos;
@@ -134,7 +148,7 @@ int Environment::Step(int action)
 	default:
 		return 0;
 	}
-	if (m_map[next] > 0 && m_map[next]<(int)m_aSnake.size())//吃到自己了T_T
+	if (m_map[next] > 0 && (m_map[next]<(int)m_aSnake.size() || m_aSnake.size() <= 2))//吃到自己了T_T
 	{
 		m_bDead = true;
 		return -len;
