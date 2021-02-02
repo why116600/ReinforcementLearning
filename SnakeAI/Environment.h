@@ -38,5 +38,7 @@ public:
 	bool Save(Recorder* pRecoder) const;
 	// 加载环境数据
 	bool Load(Recorder* pRecorder);
+	// 获取所有可能的特定长度的蛇的环境
+	static bool AllSpecificSnake(std::vector<Environment>& dst, int width, int height, int length);
 };
 

@@ -1,4 +1,5 @@
 #include <math.h>
+#include <set>
 
 #include "Environment.h"
 
@@ -419,4 +420,48 @@ bool Environment::Load(Recorder* pRecorder)
 	}
 	delete[]smap;
 	return bRet;
+}
+
+
+// 获取所有可能的特定长度的蛇的环境
+bool Environment::AllSpecificSnake(std::vector<Environment>& dst, int width, int height, int length)
+{
+	std::vector<Environment> queue;
+	std::vector<Environment> next;
+	std::set<Environment> met;
+	int len = width * height;
+	if (length<1 || length>len)
+		return false;
+	if (!AllInitiations(queue, width, height))
+		return false;
+	if (length == 1)
+	{
+		dst = queue;
+		return true;
+	}
+	for (size_t i = 0; i < queue.size(); i++)
+		met.insert(queue[i]);
+	//广度优先搜索
+	while (queue.size() > 0)
+	{
+		for (int a = 0; a < _action; a++)
+		{
+			queue[0].StepAll(a, next);
+		}
+		for (size_t i = 0; i < next.size(); i++)
+		{
+			if (met.count(next[i]) || next[i].IsTerminated())
+				continue;
+			met.insert(next[i]);
+			if ((int)next[i].m_aSnake.size() == length)
+			{
+				dst.push_back(next[i]);
+				continue;
+			}
+			queue.push_back(next[i]);
+		}
+		next.clear();
+		queue.erase(queue.begin());
+	}
+	return true;
 }
