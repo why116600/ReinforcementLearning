@@ -16,21 +16,24 @@ void TrainWithTD(TDTrainer& td, int nSize, double ebsilon, double lr, int nIter 
 	int maxr = 0;
 	int r;
 	int n;
+	int b=1;
 	std::vector<Environment> envs;
 	for (int i = 0; i != nIter; i++)
 	{
 		n = 0;
+		//b = (i % (nSize * nSize - 3)) + 3;
+		//Environment::AllSpecificSnake(envs, nSize, nSize, b);
 		Environment::AllInitiations(envs, nSize, nSize);
 		for (int j = 0; j < (int)envs.size(); j++)
 		{
-			r = td.QLearn(envs[j], ebsilon, lr);
-			//r = td.ExpectSARSA(envs[j], ebsilon, lr);
-			if (r > maxr)
+			//r = td.QLearn(envs[j], ebsilon, lr);
+			r = td.ExpectSARSA(envs[j], ebsilon, lr);
+			if ((r+b) > maxr)
 			{
-				maxr = r;
-				printf("Got progress[%d] at iteration %d\n", r, i);
+				maxr = r+b;
+				printf("Got progress[%d] at iteration %d\n", r+b, i);
 			}
-			else if (r >= (nSize * nSize - 1))
+			else if ((r+b) >= (nSize * nSize))
 			{
 				//printf("Reach final at (%d,%d)\n", i, j);
 				n++;
@@ -96,7 +99,7 @@ int main(int argc,char *argv[])
 	while (!env.IsTerminated())
 	{
 		//a = rl.GetAction(env);
-		a = td.GetAction(env, ebsilon);
+		a = td.GetAction(env, 0.0);
 		if (a < 0)
 			break;
 		round++;
