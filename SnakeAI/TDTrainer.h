@@ -25,5 +25,7 @@ public:
 	// 将学习结果保存下来
 	bool Save(Recorder* pRecorder) const;
 	bool Load(Recorder* pRecorder);
+	// Q学习
+	int QLearn(Environment& env, double ebsilon, double lr);
 };
 

@@ -164,3 +164,37 @@ bool TDTrainer::Load(Recorder* pRecorder)
 	}
 	return bRet;
 }
+
+// Qѧϰ
+int TDTrainer::QLearn(Environment& env, double ebsilon, double lr)
+{
+	int all_rewards = 0;
+	int r;
+	int A, a;
+	double U, maxv, v;
+	double proba = ebsilon / (double)Environment::_action;
+	Environment myenv = env;
+	//printf("New start:\n");
+	//env.Print();
+	while(!env.IsTerminated())
+	{
+		A = GetAction(myenv, ebsilon);
+		r = myenv.Step(A);
+		//printf("Step %d:\n", i);
+		//myenv.Print();
+		if (r > 0)
+			all_rewards += r;
+		U = (double)r;
+		maxv = GetValue(myenv, 0);
+		for (a = 1; a < Environment::_action; a++)
+		{
+			v = GetValue(myenv, a);
+			if (v > maxv)
+				maxv = v;
+		}
+		U += maxv;
+		UpdateActionValue(env, A, U, lr);
+		env = myenv;
+	}
+	return all_rewards;
+}

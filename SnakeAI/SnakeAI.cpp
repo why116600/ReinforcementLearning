@@ -23,7 +23,8 @@ void TrainWithTD(TDTrainer& td, int nSize, double ebsilon, double lr, int nIter 
 		Environment::AllInitiations(envs, nSize, nSize);
 		for (int j = 0; j < (int)envs.size(); j++)
 		{
-			r = td.ExpectSARSA(envs[j], ebsilon, lr);
+			r = td.QLearn(envs[j], ebsilon, lr);
+			//r = td.ExpectSARSA(envs[j], ebsilon, lr);
 			if (r > maxr)
 			{
 				maxr = r;
@@ -69,7 +70,7 @@ int main(int argc,char *argv[])
 		fclose(fp);
 	}
 	dwT1 = GetTickCount();
-	//if(!bLoad)
+	if(!bLoad)
 	{
 		
 		//rl.InterationWithModel(60, 0.0);
@@ -103,7 +104,7 @@ int main(int argc,char *argv[])
 			round = 0;
 		printf("Now:\n");
 		env.Print();
-		if (round >= 10)
+		if (round >= 100)
 		{
 			printf("Invalid round!\n");
 			break;
