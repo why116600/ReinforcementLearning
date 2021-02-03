@@ -153,6 +153,7 @@
   <ItemGroup>
     <ClCompile Include="Environment.cpp" />
     <ClCompile Include="FileRecorder.cpp" />
+    <ClCompile Include="PipeNN.cpp" />
     <ClCompile Include="Recorder.cpp" />
     <ClCompile Include="RLIteration.cpp" />
     <ClCompile Include="SnakeAI.cpp" />
@@ -161,6 +162,7 @@
   <ItemGroup>
     <ClInclude Include="Environment.h" />
     <ClInclude Include="FileRecorder.h" />
+    <ClInclude Include="PipeNN.h" />
     <ClInclude Include="Recorder.h" />
     <ClInclude Include="RLIteration.h" />
     <ClInclude Include="TDTrainer.h" />

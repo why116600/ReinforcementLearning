@@ -5,22 +5,34 @@ VisualStudioVersion = 16.0.28803.202
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SnakeAI", "SnakeAI\SnakeAI.vcxproj", "{2EAD217B-5C0A-4C13-865E-E772A35654DF}"
 EndProject
+Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "PipeDNNs", "PipeDNNs\PipeDNNs.pyproj", "{F439EF6B-1F19-4085-B9E0-72CC971AFAD0}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
 		Debug|x64 = Debug|x64
 		Debug|x86 = Debug|x86
+		Release|Any CPU = Release|Any CPU
 		Release|x64 = Release|x64
 		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{2EAD217B-5C0A-4C13-865E-E772A35654DF}.Debug|Any CPU.ActiveCfg = Debug|Win32
 		{2EAD217B-5C0A-4C13-865E-E772A35654DF}.Debug|x64.ActiveCfg = Debug|x64
 		{2EAD217B-5C0A-4C13-865E-E772A35654DF}.Debug|x64.Build.0 = Debug|x64
 		{2EAD217B-5C0A-4C13-865E-E772A35654DF}.Debug|x86.ActiveCfg = Debug|Win32
 		{2EAD217B-5C0A-4C13-865E-E772A35654DF}.Debug|x86.Build.0 = Debug|Win32
+		{2EAD217B-5C0A-4C13-865E-E772A35654DF}.Release|Any CPU.ActiveCfg = Release|Win32
 		{2EAD217B-5C0A-4C13-865E-E772A35654DF}.Release|x64.ActiveCfg = Release|x64
 		{2EAD217B-5C0A-4C13-865E-E772A35654DF}.Release|x64.Build.0 = Release|x64
 		{2EAD217B-5C0A-4C13-865E-E772A35654DF}.Release|x86.ActiveCfg = Release|Win32
 		{2EAD217B-5C0A-4C13-865E-E772A35654DF}.Release|x86.Build.0 = Release|Win32
+		{F439EF6B-1F19-4085-B9E0-72CC971AFAD0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F439EF6B-1F19-4085-B9E0-72CC971AFAD0}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{F439EF6B-1F19-4085-B9E0-72CC971AFAD0}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{F439EF6B-1F19-4085-B9E0-72CC971AFAD0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F439EF6B-1F19-4085-B9E0-72CC971AFAD0}.Release|x64.ActiveCfg = Release|Any CPU
+		{F439EF6B-1F19-4085-B9E0-72CC971AFAD0}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
