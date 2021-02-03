@@ -10,7 +10,7 @@ public:
 	static const int _food = -1;
 	static const int _action = 4;
 private:
-	int m_map[9];
+	int* m_map;
 	int m_width, m_height;
 	std::vector<int> m_aSnake;
 	int m_food;

@@ -8,7 +8,7 @@ Environment::Environment()
 	,m_height(0)
 	,m_bDead(true)
 	, m_food(-1)
-	//, m_map(NULL)
+	, m_map(NULL)
 {
 
 }
@@ -19,7 +19,7 @@ Environment::Environment(int width, int height)
 	, m_bDead(false)
 	, m_food(-1)
 {
-	//m_map = new int[width * height];
+	m_map = new int[width * height];
 	Reset();
 }
 
@@ -30,14 +30,14 @@ Environment::Environment(const Environment& env)
 	, m_food(env.m_food)
 {
 	int len = m_width * m_height;
-	//m_map = new int[len];
+	m_map = new int[len];
 	m_aSnake = env.m_aSnake;
 	memcpy(m_map, env.m_map, sizeof(int) * len);
 }
 
 Environment::~Environment()
 {
-	//delete []m_map;
+	delete []m_map;
 }
 
 bool Environment::operator < (const Environment& target) const
@@ -77,7 +77,9 @@ Environment& Environment::operator =(const Environment& target)
 	m_bDead = target.m_bDead;
 	m_food = target.m_food;
 	len = m_width * m_height;
-	//m_map = new int[len];
+	if (m_map)
+		delete[]m_map;
+	m_map = new int[len];
 	m_aSnake = target.m_aSnake;
 	memcpy(m_map, target.m_map, sizeof(int) * len);
 	return *this;
@@ -209,7 +211,7 @@ bool Environment::AllInitiations(std::vector<Environment>& dst, int width, int h
 	env.m_width = width;
 	env.m_height = height;
 	env.m_bDead = false;
-	//env.m_map = new int[len];
+	env.m_map = new int[len];
 	memset(env.m_map, 0, sizeof(int) * len);
 	for (int i = 0; i < len; i++)
 	{
