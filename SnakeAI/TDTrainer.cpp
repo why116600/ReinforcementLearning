@@ -15,9 +15,10 @@ TDTrainer::~TDTrainer()
 
 
 // 获取动作价值
-double TDTrainer::GetValue(const Environment& env, int action)
+double TDTrainer::GetValue(const Environment& env, int action, int index)
 {
 	std::pair<Environment, int> p(env,action);
+	p.second += index * Environment::_action;
 	if (!m_action_value.count(p))
 		return 0.0;
 	return m_action_value[p];
@@ -25,17 +26,17 @@ double TDTrainer::GetValue(const Environment& env, int action)
 
 
 // ebsilon贪心策略获取动作
-int TDTrainer::GetAction(const Environment& env, double ebsilon)
+int TDTrainer::GetAction(const Environment& env, double ebsilon, int index)
 {
 	double maxv,v;
 	int maxa = 0;
 	int r = rand() % 10000;
 	if ((double)r < (ebsilon * 10000.0))
 		return rand() % env._action;
-	maxv = GetValue(env, 0);
+	maxv = GetValue(env, 0, index);
 	for (int a = 1; a < env._action; a++)
 	{
-		v = GetValue(env, a);
+		v = GetValue(env, a, index);
 		if (v > maxv)
 		{
 			maxv = v;
@@ -45,6 +46,30 @@ int TDTrainer::GetAction(const Environment& env, double ebsilon)
 	return maxa;
 }
 
+// 使用多组动作价值共同决定动作
+int TDTrainer::GetWholeAction(const Environment& env, double ebsilon, int nWhole)
+{
+	double maxv, v;
+	int maxa = 0;
+	int r = rand() % 10000;
+	if ((double)r < (ebsilon * 10000.0))
+		return rand() % env._action;
+	maxv = 0.0;
+	for (int i = 0; i < nWhole; i++)
+		maxv += GetValue(env, 0, i);
+	for (int a = 1; a < env._action; a++)
+	{
+		v = 0.0;
+		for (int i = 0; i < nWhole; i++)
+			v += GetValue(env, a, i);
+		if (v > maxv)
+		{
+			maxv = v;
+			maxa = a;
+		}
+	}
+	return maxa;
+}
 
 // 期望SARSA时序差分算法
 int TDTrainer::ExpectSARSA(Environment& env, double ebsilon, double lr, int maxstep)
@@ -86,9 +111,10 @@ int TDTrainer::ExpectSARSA(Environment& env, double ebsilon, double lr, int maxs
 
 
 // 按照lr的学习率更新动作价值
-void TDTrainer::UpdateActionValue(const Environment& env, int action, double value, double lr)
+void TDTrainer::UpdateActionValue(const Environment& env, int action, double value, double lr, int index)
 {
 	std::pair<Environment, int> p(env, action);
+	p.second += index * Environment::_action;
 	if (m_action_value.count(p))
 	{
 		m_action_value[p] += lr * (value - m_action_value[p]);
@@ -198,3 +224,31 @@ int TDTrainer::QLearn(Environment& env, double ebsilon, double lr)
 	}
 	return all_rewards;
 }
+
+
+// 双重Q学习
+int TDTrainer::DoubleQLearn(Environment& env, double ebsilon, double lr)
+{
+	int all_rewards = 0;
+	int r;
+	int A, a, nA;
+	int index;
+	double U, maxv, v;
+	Environment myenv = env;
+	while (!env.IsTerminated())
+	{
+		A = GetWholeAction(myenv, ebsilon, 2);
+		r = myenv.Step(A);
+		if (r > 0)
+			all_rewards += r;
+		U = (double)r;
+		index = rand() % 2;
+		nA = GetAction(myenv, 0.0, index);
+		U += GetValue(myenv, nA, 1 - index);
+		UpdateActionValue(env, A, U, lr, index);
+		env = myenv;
+	}
+	return all_rewards;
+}
+
+

@@ -27,7 +27,8 @@ void TrainWithTD(TDTrainer& td, int nSize, double ebsilon, double lr, int nIter 
 		for (int j = 0; j < (int)envs.size(); j++)
 		{
 			//r = td.QLearn(envs[j], ebsilon, lr);
-			r = td.ExpectSARSA(envs[j], ebsilon, lr);
+			//r = td.ExpectSARSA(envs[j], ebsilon, lr);
+			r = td.DoubleQLearn(envs[j], ebsilon, lr);
 			if ((r+b) > maxr)
 			{
 				maxr = r+b;
@@ -73,6 +74,7 @@ int main(int argc,char *argv[])
 		fclose(fp);
 	}
 	dwT1 = GetTickCount();
+	srand(dwT1);
 	if(!bLoad)
 	{
 		
@@ -92,7 +94,6 @@ int main(int argc,char *argv[])
 			}
 		}
 	}
-	srand(dwT1);
 	Environment env(3, 3);
 	printf("First state:\n");
 	env.Print();
