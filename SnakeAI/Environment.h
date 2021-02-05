@@ -40,5 +40,11 @@ public:
 	bool Load(Recorder* pRecorder);
 	// 获取所有可能的特定长度的蛇的环境
 	static bool AllSpecificSnake(std::vector<Environment>& dst, int width, int height, int length);
+	// 获取食物的位置
+	int GetFood() const;
+	// 获取蛇的每个关节
+	void GetSnake(std::vector<int>& aSnake) const;
+	// 是否死了
+	bool IsDead() const;
 };
 

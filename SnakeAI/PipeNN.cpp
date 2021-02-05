@@ -66,6 +66,7 @@ bool PipeNN::GetShape(int msgType, std::vector<int>& shapes)
 	if (m_hPipe == INVALID_HANDLE_VALUE)
 		return false;
 	int n, m, t;
+	int arr[100];
 	DWORD dwSize;
 	if (!WriteFile(m_hPipe, &msgType, sizeof(msgType), &dwSize, NULL))
 	{
@@ -157,9 +158,9 @@ bool PipeNN::SendTrainData(double xdata[], int xlen, double ydata[], int ylen)
 		ClosePipe();
 		return false;
 	}
-	if (SendDoubleArray(xdata, xlen))
+	if (!SendDoubleArray(xdata, xlen))
 		return false;
-	if (SendDoubleArray(ydata, ylen))
+	if (!SendDoubleArray(ydata, ylen))
 		return false;
 	if (!ReadData(&res, sizeof(res)))
 		return false;
@@ -215,7 +216,7 @@ bool PipeNN::Predict(double xdata[], int xlen, double ydata[], int ylen)
 		ClosePipe();
 		return false;
 	}
-	if (SendDoubleArray(xdata, xlen))
+	if (!SendDoubleArray(xdata, xlen))
 		return false;
 	if (!ReadData(&res, sizeof(res)))
 		return false;

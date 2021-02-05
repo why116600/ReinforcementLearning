@@ -152,19 +152,23 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Environment.cpp" />
+    <ClCompile Include="ExperimentItem.cpp" />
     <ClCompile Include="FileRecorder.cpp" />
     <ClCompile Include="PipeNN.cpp" />
     <ClCompile Include="Recorder.cpp" />
     <ClCompile Include="RLIteration.cpp" />
+    <ClCompile Include="RL_DNN.cpp" />
     <ClCompile Include="SnakeAI.cpp" />
     <ClCompile Include="TDTrainer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Environment.h" />
+    <ClInclude Include="ExperimentItem.h" />
     <ClInclude Include="FileRecorder.h" />
     <ClInclude Include="PipeNN.h" />
     <ClInclude Include="Recorder.h" />
     <ClInclude Include="RLIteration.h" />
+    <ClInclude Include="RL_DNN.h" />
     <ClInclude Include="TDTrainer.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

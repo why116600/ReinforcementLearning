@@ -7,7 +7,7 @@ def ReadDataFromPipe(pipe,dataSize):
 	data=b''
 	while len(data)<dataSize:
 		d=win32file.ReadFile(pipe,dataSize-len(data))
-		data+=d
+		data+=d[1]
 	return data
 
 def ReadIntFromPipe(pipe):
@@ -38,13 +38,13 @@ def SendShape(pipe,msgType,shape):
 		win32file.WriteFile(pipe,data)
 	else:
 		data=struct.pack('=ii',msgType,len(shape))
-		win32file.WriteFile(pipe,data)
+		#win32file.WriteFile(pipe,data)
 		for i in range(len(shape)):
 			data+=struct.pack('=i',shape[i])
 		win32file.WriteFile(pipe,data)
 
 def SendDoubleArray(pipe,arr):
-	if arr==None:
+	if type(arr)!=np.ndarray:
 		win32file.WriteFile(pipe,struct.pack('=i',0))
 		return
 	data=struct.pack('=i',len(arr))
@@ -117,6 +117,7 @@ class BaseNNPipe:
 					self.AddTrainingData(np.array(in_arr).reshape(in_shp),np.array(co_arr).reshape(co_shp))
 					SendInt(pipe,msgType)
 				elif msgType==4:#开始训练
+					self.Train()
 					SendInt(pipe,msgType)
 				elif msgType==5:#用网络进行预测
 					in_arr=ReadArrayFromPipe(pipe)
@@ -127,10 +128,10 @@ class BaseNNPipe:
 					y=self.Predict(np.array(in_arr).reshape(in_shp))
 					out_len=GetShapeLength(self.GetOutputShape())
 					SendInt(pipe,msgType)
-					if y==None:
-						SendDoubleArray(pipe,None)
-					else:
+					if type(y)==np.ndarray:
 						SendDoubleArray(pipe,y.reshape((out_len,)))
+					else:
+						SendDoubleArray(pipe,None)
 					
 
 		except BaseException as e:

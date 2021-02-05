@@ -467,3 +467,24 @@ bool Environment::AllSpecificSnake(std::vector<Environment>& dst, int width, int
 	}
 	return true;
 }
+
+
+// 获取食物的位置
+int Environment::GetFood() const
+{
+	return m_food;
+}
+
+
+// 获取蛇的每个关节
+void Environment::GetSnake(std::vector<int>& aSnake) const
+{
+	aSnake = m_aSnake;
+}
+
+
+// 是否死了
+bool Environment::IsDead() const
+{
+	return m_bDead;
+}

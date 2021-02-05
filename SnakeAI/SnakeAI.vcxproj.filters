@@ -36,6 +36,12 @@
     <ClCompile Include="PipeNN.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="RL_DNN.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="ExperimentItem.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Environment.h">
@@ -54,6 +60,12 @@
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="PipeNN.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="RL_DNN.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="ExperimentItem.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>
