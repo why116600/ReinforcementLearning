@@ -32,5 +32,7 @@ public:
 	int SARSAWithDNN(Environment& env,double ebsilon);
 	// 深度Q学习
 	int DQN(Environment& env, int nPlayback, double ebsilon);
+	// 使用深度网络的蒙特卡罗
+	int MonteCarloWithDNN(Environment& env, double ebsilon, int nIter=-1);
 };
 

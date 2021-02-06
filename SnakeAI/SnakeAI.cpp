@@ -62,7 +62,8 @@ void TrainWithDNN(RL_DNN& dnn, double ebsilon, int nIter = -1)
 		Environment::AllInitiations(envs, 3, 3);
 		for (int j = 0; j < (int)envs.size(); j++)
 		{
-			r = dnn.SARSAWithDNN(envs[j], ebsilon);
+			r = dnn.MonteCarloWithDNN(envs[j], ebsilon, -1);
+			//r = dnn.SARSAWithDNN(envs[j], ebsilon);
 			//r = dnn.DQN(envs[j], 1, ebsilon);
 			if ((r + b) > maxr)
 			{
@@ -86,7 +87,7 @@ void TrainWithDNN(RL_DNN& dnn, double ebsilon, int nIter = -1)
 
 int main(int argc,char *argv[])
 {
-	const double ebsilon = 0.1;
+	const double ebsilon = 0.2;
 	const double learn_rate = 0.1;
 	FileRecorder* pRecorder = NULL;
 	FILE* fp = NULL;

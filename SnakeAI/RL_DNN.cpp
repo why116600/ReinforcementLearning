@@ -215,3 +215,30 @@ int RL_DNN::DQN(Environment& env, int nPlayback, double ebsilon)
 	}
 	return 0;
 }
+
+
+// 使用深度网络的蒙特卡罗
+int RL_DNN::MonteCarloWithDNN(Environment& env, double ebsilon, int nIter)
+{
+	std::vector<Environment> envs;
+	std::vector<int> rewards;
+	std::vector<int> actions;
+	int a, r;
+	int all_rewards = 0;
+	for (int i = 0; !env.IsTerminated() && i != nIter; i++)
+	{
+		envs.push_back(env);
+		a = GetAction(env, ebsilon);
+		if (a < 0)
+			return -1;
+		r = env.Step(a);
+		actions.push_back(a);
+		rewards.push_back(r);
+	}
+	for (int i = (int)envs.size() - 1; i >= 0; i--)
+	{
+		all_rewards += rewards[i];
+		UpdateValue(envs[i], actions[i], (double)all_rewards);
+	}
+	return all_rewards+9;
+}
