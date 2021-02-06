@@ -29,7 +29,8 @@ void TrainWithTD(TDTrainer& td, int nSize, double ebsilon, double lr, int nIter 
 		{
 			//r = td.QLearn(envs[j], ebsilon, lr);
 			//r = td.ExpectSARSA(envs[j], ebsilon, lr);
-			r = td.DoubleQLearn(envs[j], ebsilon, lr);
+			//r = td.DoubleQLearn(envs[j], ebsilon, lr);
+			r = td.MonteCarlo(envs[j], ebsilon, lr);
 			if ((r+b) > maxr)
 			{
 				maxr = r+b;
@@ -94,11 +95,17 @@ int main(int argc,char *argv[])
 	int a;
 	int round = 0;
 	bool bLoad = false;
+	bool NoDNN = false;
 	DWORD dwT1, dwT2;
 	RLIteration rl(3);
 	TDTrainer td;
 	RL_DNN dnn(3);
-	if (argc > 1)
+	if (!dnn.ConnectNN(TEXT("\\\\.\\pipe\\LiudadaNemaedPipe")))
+	{
+		NoDNN = true;
+		printf("Cannot open pipe!\n");
+	}
+	if (argc > 1 && !NoDNN)
 	{
 		fp = fopen(argv[1], "rb");
 		if (fp)
@@ -110,19 +117,16 @@ int main(int argc,char *argv[])
 		delete pRecorder;
 		fclose(fp);
 	}
-	if (!dnn.ConnectNN(TEXT("\\\\.\\pipe\\LiudadaNemaedPipe")))
-	{
-		printf("Cannot open pipe!\n");
-		return -1;
-	}
 	dwT1 = GetTickCount();
 	srand(dwT1);
 	if(!bLoad)
 	{
 		
 		//rl.InterationWithModel(60, 0.0);
-		//TrainWithTD(td, 3, ebsilon, learn_rate, 30);
-		TrainWithDNN(dnn, ebsilon, 300);
+		if(NoDNN)
+			TrainWithTD(td, 3, ebsilon, learn_rate, 650);
+		else
+			TrainWithDNN(dnn, ebsilon, 10000);
 		dwT2 = GetTickCount();
 		printf("cost time:%u\n", dwT2 - dwT1);
 		if (argc > 1)
@@ -143,8 +147,10 @@ int main(int argc,char *argv[])
 	while (!env.IsTerminated())
 	{
 		//a = rl.GetAction(env);
-		//a = td.GetAction(env, 0.0);
-		a = dnn.GetAction(env, 0.0);
+		if(NoDNN)
+			a = td.GetAction(env, 0.0);
+		else
+			a = dnn.GetAction(env, 0.0);
 		if (a < 0)
 			break;
 		round++;

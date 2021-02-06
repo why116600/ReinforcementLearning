@@ -10,9 +10,12 @@ class TDTrainer
 {
 private:
 	std::map<std::pair<Environment, int>, double> m_action_value;//动作价值
+	std::map< std::pair<Environment, int>, int> m_hit_time;
 private:
 	// 按照lr的学习率更新动作价值
 	void UpdateActionValue(const Environment& env, int action, double value, double lr,int index=0);
+	// 计算当前某状态-动作对的访问次数
+	int HitSA(const Environment& env, int action);
 public:
 	TDTrainer();
 	~TDTrainer();
@@ -31,5 +34,7 @@ public:
 	int QLearn(Environment& env, double ebsilon, double lr);
 	// 双重Q学习
 	int DoubleQLearn(Environment& env, double ebsilon, double lr);
+	// 蒙特卡罗
+	int MonteCarlo(Environment& env, double ebsilon, double lr, int maxstep=-1);
 };
 

@@ -125,6 +125,22 @@ void TDTrainer::UpdateActionValue(const Environment& env, int action, double val
 	}
 }
 
+// 计算当前某状态-动作对的访问次数
+int TDTrainer::HitSA(const Environment& env, int action)
+{
+	int ret;
+	std::pair<Environment, int> p(env, action);
+	if (!m_hit_time.count(p))
+	{
+		ret = 1;
+	}
+	else
+	{
+		ret = m_hit_time[p] + 1;
+	}
+	m_hit_time[p] = ret;
+	return ret;
+}
 
 // 将学习结果保存下来
 bool TDTrainer::Save(Recorder* pRecorder) const
@@ -249,6 +265,37 @@ int TDTrainer::DoubleQLearn(Environment& env, double ebsilon, double lr)
 		env = myenv;
 	}
 	return all_rewards;
+}
+
+
+
+
+// 蒙特卡罗
+int TDTrainer::MonteCarlo(Environment& env, double ebsilon, double lr, int maxstep)
+{
+	std::vector<Environment> envs;
+	std::vector<int> actions, rewards;
+	int all_rewards = 0;
+	int bingo = 0;
+	int r, a;
+	double c;
+	for (int i = 0; !env.IsTerminated() && i != maxstep; i++)
+	{
+		envs.push_back(env);
+		a = GetAction(env, ebsilon);
+		r = env.Step(a);
+		if (r > 0)
+			bingo += r;
+		actions.push_back(a);
+		rewards.push_back(r);
+	}
+	for (int i = (int)envs.size() - 1; i >= 0; i--)
+	{
+		all_rewards += rewards[i];
+		c = (double)HitSA(envs[i], actions[i]);
+		UpdateActionValue(envs[i], actions[i], (double)all_rewards / c, lr);
+	}
+	return bingo;
 }
 
 
