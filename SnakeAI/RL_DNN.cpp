@@ -224,6 +224,7 @@ int RL_DNN::MonteCarloWithDNN(Environment& env, double ebsilon, int nIter)
 	std::vector<int> rewards;
 	std::vector<int> actions;
 	int a, r;
+	int bingo = 0;
 	int all_rewards = 0;
 	for (int i = 0; !env.IsTerminated() && i != nIter; i++)
 	{
@@ -232,6 +233,8 @@ int RL_DNN::MonteCarloWithDNN(Environment& env, double ebsilon, int nIter)
 		if (a < 0)
 			return -1;
 		r = env.Step(a);
+		if (r > 0)
+			bingo += r;
 		actions.push_back(a);
 		rewards.push_back(r);
 	}
@@ -240,5 +243,5 @@ int RL_DNN::MonteCarloWithDNN(Environment& env, double ebsilon, int nIter)
 		all_rewards += rewards[i];
 		UpdateValue(envs[i], actions[i], (double)all_rewards);
 	}
-	return all_rewards+9;
+	return bingo;
 }

@@ -105,7 +105,7 @@ int main(int argc,char *argv[])
 		NoDNN = true;
 		printf("Cannot open pipe!\n");
 	}
-	if (argc > 1 && !NoDNN)
+	if (argc > 1 && NoDNN)
 	{
 		fp = fopen(argv[1], "rb");
 		if (fp)

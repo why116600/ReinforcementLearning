@@ -19,7 +19,7 @@ class SnakeNN(PipeDNNs.BaseNNPipe):
 			tf.keras.layers.Dense(100,activation='relu'),
 			tf.keras.layers.Dense(100,activation='relu'),
 			tf.keras.layers.Dense(100,activation='relu'),
-			tf.keras.layers.Dense(OUTPUT_SIZE)
+			tf.keras.layers.Dense(OUTPUT_SIZE,activation=tf.keras.activations.linear)
 			])
 		self.model.compile(optimizer=tf.keras.optimizers.Adam(1e-4),loss='mse')
 		self.train_data=[]
