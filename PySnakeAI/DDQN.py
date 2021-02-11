@@ -7,9 +7,12 @@ import os
 
 def CreateNewModel(input_len,output_len):
 	model = tf.keras.Sequential([tf.keras.layers.InputLayer(input_shape=(input_len,)),
-		tf.keras.layers.Dense(300,activation='relu'),
-		tf.keras.layers.Dense(300,activation='relu'),
-		tf.keras.layers.Dense(300,activation='relu'),
+		tf.keras.layers.Dense(900,activation='relu'),
+		tf.keras.layers.Dense(900,activation='relu'),
+		#tf.keras.layers.Dense(900,activation='relu'),
+		#tf.keras.layers.Dense(900,activation='relu'),
+		#tf.keras.layers.Dense(900,activation='relu'),
+		#tf.keras.layers.Dense(900,activation='relu'),
 			tf.keras.layers.Dense(output_len,activation=tf.keras.activations.linear)])
 	model.compile(optimizer=tf.keras.optimizers.Adam(1e-4),loss='mse')
 	return model
@@ -17,13 +20,23 @@ def CreateNewModel(input_len,output_len):
 BATCH_SIZE=10
 
 class DDQN(object):
-	def __init__(self):
-		self.models=[CreateNewModel(11,PySnakeAI.ACTION) for i in range(2)]#下标1的网络是目标网络
-		self.experiments=[]
+	def __init__(self,nSize):
+		self.nSize=nSize
+		self.nLen=nSize*nSize
+		self.models=[CreateNewModel((self.nLen+1)*(self.nLen+1),PySnakeAI.ACTION) for i in range(2)]#下标1的网络是目标网络
+		self.experiments=set()
+
+	def Preprocess(self,observation):#使用独热编码预处理
+		result=[]
+		for i,v in enumerate(observation[1:]):
+			onehot=[0,]*(self.nLen+1)
+			onehot[v+1]=1
+			result+=onehot
+		return np.array([result,])
 
 	def GetValues(self,observation,index=0):
-
-		return self.models[index].predict(observation.reshape((1,len(observation)))).reshape((PySnakeAI.ACTION,))
+		obser=self.Preprocess(observation)
+		return self.models[index].predict(obser).reshape((PySnakeAI.ACTION,))
 
 	def GetAction(self,observation,ebsilon,index=0):
 		if random.random()<ebsilon:
@@ -37,8 +50,11 @@ class DDQN(object):
 		#self.models[1].save(filepath2)
 
 	def Load(self,filepath):
-		self.models[0].load_weights(filepath)
-		self.models[1].load_weights(filepath)
+		try:
+			self.models[0].load_weights(filepath)
+			self.models[1].load_weights(filepath)
+		except Exception as e:
+			print('loading model weights failed:',repr(e))
 
 	def DDQN(self,env:PySnakeAI.Snake,ebsilon):
 		first=env.GetObservation()
@@ -49,18 +65,15 @@ class DDQN(object):
 			if reward>0:
 				bingo+=reward
 			second=env.GetObservation()
-			self.experiments.append((first,action,reward,second))
+			exp=(tuple(first),action,reward,tuple(second))
+			if not exp in self.experiments:
+				self.experiments.add(exp)
 			if len(self.experiments)>=BATCH_SIZE:
 				batch_x=[]
 				batch_y=[]
-				selected=set()
-				for i in range(BATCH_SIZE):
-					x=random.randint(0,len(self.experiments)-1)
-					while x in selected:
-						x=random.randint(0,len(self.experiments)-1)
-					s1,a,r,s2=self.experiments[x]
-					selected.add(x)
-					batch_x.append(s1)
+				selected=random.sample(self.experiments,BATCH_SIZE)
+				for s1,a,r,s2 in selected:
+					batch_x.append(self.Preprocess(s1))
 					ys=self.GetValues(s1,0)
 					if s1[0]==1:
 						ys[a]=r
@@ -69,7 +82,7 @@ class DDQN(object):
 						nys=self.GetValues(s2,1)
 						ys[a]=r+nys[na]
 					batch_y.append(ys)
-				self.models[0].fit(np.array(batch_x),np.array(batch_y))
+				self.models[0].fit(np.array(batch_x),np.array(batch_y),batch_size=BATCH_SIZE,epochs=1,verbose=1)
 			first=second
 		return bingo
 
@@ -82,7 +95,7 @@ def main():
 		SIZE=int(sys.argv[1])
 	if len(sys.argv)>2:
 		EPOCH=int(sys.argv[2])
-	dqn=DDQN()
+	dqn=DDQN(SIZE)
 	if len(sys.argv)>3:
 		dqn.Load(sys.argv[3])
 		weight_file=sys.argv[3]
@@ -108,7 +121,7 @@ def main():
 		dqn.Save(weight_file)
 		print('epoch %d finished!max progress:%d,average:%f'%(i,maxb,allb/len(envs)))
 		with open('train.log','a') as fp:
-			fp.write('epoch %d,max progress:%d,average:%f'%(i,maxb,allb/len(envs)))
+			fp.write('epoch %d,max progress:%d,average:%f\n'%(i,maxb,allb/len(envs)))
 		if bingo>0:
 			print('epoch %d reached final %d times'%(i,bingo))
 
