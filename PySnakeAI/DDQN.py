@@ -7,17 +7,17 @@ import os
 
 def CreateNewModel(input_len,output_len):
 	model = tf.keras.Sequential([tf.keras.layers.InputLayer(input_shape=(input_len,)),
-		tf.keras.layers.Dense(900,activation='relu'),
-		tf.keras.layers.Dense(900,activation='relu'),
+		tf.keras.layers.Dense(300,activation='relu'),
+		tf.keras.layers.Dense(300,activation='relu'),
 		#tf.keras.layers.Dense(900,activation='relu'),
 		#tf.keras.layers.Dense(900,activation='relu'),
 		#tf.keras.layers.Dense(900,activation='relu'),
 		#tf.keras.layers.Dense(900,activation='relu'),
 			tf.keras.layers.Dense(output_len,activation=tf.keras.activations.linear)])
-	model.compile(optimizer=tf.keras.optimizers.Adam(1e-4),loss='mse')
+	model.compile(optimizer=tf.keras.optimizers.Adam(1e-3),loss='mse')
 	return model
 
-BATCH_SIZE=10
+BATCH_SIZE=64
 
 class DDQN(object):
 	def __init__(self,nSize):
@@ -84,6 +84,7 @@ class DDQN(object):
 					batch_y.append(ys)
 				self.models[0].fit(np.array(batch_x),np.array(batch_y),batch_size=BATCH_SIZE,epochs=1,verbose=1)
 			first=second
+		self.models[1].set_weights(self.models[0].get_weights())
 		return bingo
 
 
