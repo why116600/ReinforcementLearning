@@ -79,7 +79,7 @@ class Snake:
 				while self.map[self.IndexToPos(self.food)]!=0:
 					self.food=random.randint(0,self.nLen-1)
 		else:
-			reward=0
+			reward=-1/self.nLen
 			for i in range(len(self.snake)-1,0,-1):
 				self.snake[i]=self.snake[i-1]
 			self.snake[0]=nindex
