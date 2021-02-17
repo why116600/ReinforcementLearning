@@ -8,8 +8,8 @@ import random
 
 def CreateNewModel(input_len,output_len):
 	model = tf.keras.Sequential([tf.keras.layers.InputLayer(input_shape=(input_len,)),
-		tf.keras.layers.Dense(20,activation='relu'),
-		tf.keras.layers.Dense(20,activation='relu'),
+		tf.keras.layers.Dense(30,activation='relu'),
+		tf.keras.layers.Dense(30,activation='relu'),
 			tf.keras.layers.Dense(output_len,activation=tf.keras.activations.linear)])
 	model.compile(optimizer=tf.keras.optimizers.Adam(1e-3),loss='mse')
 	return model
@@ -88,8 +88,10 @@ def main():
 	if len(sys.argv)>1:
 		EPOCH=int(sys.argv[1])
 	if len(sys.argv)>2:
-		dqn.Load(sys.argv[2])
 		weight_file=sys.argv[2]
+		if len(weight_file)<3 or weight_file[-3:]!='.h5':
+			weight_file+='.h5'
+		dqn.Load(sys.argv[2])
 	else:
 		dqn.Save(weight_file)
 	if len(sys.argv)>3:
