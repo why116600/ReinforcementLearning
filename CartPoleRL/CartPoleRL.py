@@ -8,8 +8,8 @@ import random
 
 def CreateNewModel(input_len,output_len):
 	model = tf.keras.Sequential([tf.keras.layers.InputLayer(input_shape=(input_len,)),
-		tf.keras.layers.Dense(30,activation='relu'),
-		tf.keras.layers.Dense(30,activation='relu'),
+		tf.keras.layers.Dense(40,activation='relu'),
+		tf.keras.layers.Dense(40,activation='relu'),
 			tf.keras.layers.Dense(output_len,activation=tf.keras.activations.linear)])
 	model.compile(optimizer=tf.keras.optimizers.Adam(1e-3),loss='mse')
 	return model
@@ -74,7 +74,7 @@ class DDQN(object):
 						nys=self.GetValues(s2,1)
 						ys[a]=r+GAMMA*nys[na]
 					batch_y.append(ys)
-				self.models[0].fit(np.array(batch_x),np.array(batch_y),batch_size=BATCH_SIZE,epochs=1,verbose=1)
+				self.models[0].fit(np.array(batch_x),np.array(batch_y),batch_size=1,verbose=0)
 			first=second
 		self.models[1].set_weights(self.models[0].get_weights())
 		return bingo

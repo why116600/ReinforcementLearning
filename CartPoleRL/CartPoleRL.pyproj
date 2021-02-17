@@ -4,7 +4,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>0aee369b-e119-4080-8b03-4dba7907efc0</ProjectGuid>
     <ProjectHome>.</ProjectHome>
-    <StartupFile>CartPoleAC.py</StartupFile>
+    <StartupFile>CartPoleRL.py</StartupFile>
     <SearchPath>
     </SearchPath>
     <WorkingDirectory>.</WorkingDirectory>
@@ -12,7 +12,7 @@
     <Name>CartPoleRL</Name>
     <RootNamespace>CartPoleRL</RootNamespace>
     <LaunchProvider>Standard Python launcher</LaunchProvider>
-    <CommandLineArguments>500 cartpole atrain.txt</CommandLineArguments>
+    <CommandLineArguments>100 ddqn train.log</CommandLineArguments>
     <EnableNativeCodeDebugging>False</EnableNativeCodeDebugging>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
