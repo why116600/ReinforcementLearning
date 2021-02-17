@@ -4,7 +4,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>0aee369b-e119-4080-8b03-4dba7907efc0</ProjectGuid>
     <ProjectHome>.</ProjectHome>
-    <StartupFile>CartPoleVPG.py</StartupFile>
+    <StartupFile>CartPoleAC.py</StartupFile>
     <SearchPath>
     </SearchPath>
     <WorkingDirectory>.</WorkingDirectory>
@@ -12,7 +12,7 @@
     <Name>CartPoleRL</Name>
     <RootNamespace>CartPoleRL</RootNamespace>
     <LaunchProvider>Standard Python launcher</LaunchProvider>
-    <CommandLineArguments>10 cartpole_vpg vtrain.txt</CommandLineArguments>
+    <CommandLineArguments>500 cartpole atrain.txt</CommandLineArguments>
     <EnableNativeCodeDebugging>False</EnableNativeCodeDebugging>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
@@ -25,6 +25,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="CartPoleRL.py" />
+    <Compile Include="CartPoleAC.py" />
     <Compile Include="CartPoleVPG.py">
       <SubType>Code</SubType>
     </Compile>
