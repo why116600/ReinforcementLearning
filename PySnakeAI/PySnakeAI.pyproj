@@ -4,7 +4,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>0e56c454-1149-4bc6-8105-01450740ddae</ProjectGuid>
     <ProjectHome>.</ProjectHome>
-    <StartupFile>BaselineVPG.py</StartupFile>
+    <StartupFile>A2C.py</StartupFile>
     <SearchPath>
     </SearchPath>
     <WorkingDirectory>.</WorkingDirectory>
@@ -12,7 +12,7 @@
     <Name>PySnakeAI</Name>
     <RootNamespace>PySnakeAI</RootNamespace>
     <LaunchProvider>Standard Python launcher</LaunchProvider>
-    <CommandLineArguments>3 10000 VPG.h5</CommandLineArguments>
+    <CommandLineArguments>3 800 a2c atrain.log</CommandLineArguments>
     <EnableNativeCodeDebugging>False</EnableNativeCodeDebugging>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
@@ -24,6 +24,7 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="A2C.py" />
     <Compile Include="BaselineVPG.py">
       <SubType>Code</SubType>
     </Compile>
