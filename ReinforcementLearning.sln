@@ -11,6 +11,8 @@ Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "PySnakeAI", "PySnakeAI\PySn
 EndProject
 Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "CartPoleRL", "CartPoleRL\CartPoleRL.pyproj", "{0AEE369B-E119-4080-8B03-4DBA7907EFC0}"
 EndProject
+Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "Tetris", "Tetris\Tetris.pyproj", "{FB4BD021-A509-4613-9BD5-32E27523D76E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -49,6 +51,12 @@ Global
 		{0AEE369B-E119-4080-8B03-4DBA7907EFC0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0AEE369B-E119-4080-8B03-4DBA7907EFC0}.Release|x64.ActiveCfg = Release|Any CPU
 		{0AEE369B-E119-4080-8B03-4DBA7907EFC0}.Release|x86.ActiveCfg = Release|Any CPU
+		{FB4BD021-A509-4613-9BD5-32E27523D76E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FB4BD021-A509-4613-9BD5-32E27523D76E}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{FB4BD021-A509-4613-9BD5-32E27523D76E}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{FB4BD021-A509-4613-9BD5-32E27523D76E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FB4BD021-A509-4613-9BD5-32E27523D76E}.Release|x64.ActiveCfg = Release|Any CPU
+		{FB4BD021-A509-4613-9BD5-32E27523D76E}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
