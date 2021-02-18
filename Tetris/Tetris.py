@@ -203,7 +203,9 @@ SURPLUS_PUNISH=-0.1#多余操作的惩罚
 class Tetris:
 	def __init__(self,limit=-1):
 		self.nLimit=limit#最大回合数
+		self.nAction=5
 		self.Reset()
+
 
 	def Reset(self):
 		self.nCube=0#目前已经落下的方块数
@@ -246,7 +248,7 @@ class Tetris:
 		cubic_map[ypos:ypos+h,xpos:xpos+w]=cubic[:h,:w]
 		return np.sum(cubic_map&self.map)==0
 
-	def GetObservation(self):
+	def GetObservation(self,doubleView=True):
 		obs=self.map.copy()
 		h=self.cubic.shape[0]
 		w=self.cubic.shape[1]
@@ -256,6 +258,8 @@ class Tetris:
 			w=self.map.shape[1]-self.xpos
 		cubicmap=np.zeros(self.map.shape,dtype=np.int)
 		cubicmap[self.ypos:self.ypos+h,self.xpos:self.xpos+w]=self.cubic[:h,:w]
+		if doubleView:
+			return np.array([self.map,cubicmap])
 		obs=obs-cubicmap
 		return obs
 
@@ -361,7 +365,7 @@ def main():
 				if env.IsTerminated():
 					print('The end!')
 		screen.fill(white)
-		obs=env.GetObservation()
+		obs=env.GetObservation(False)
 		for i in range(HEIGHT):
 			for j in range(WIDTH):
 				if obs[i,j]==1:
