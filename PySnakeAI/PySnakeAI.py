@@ -42,6 +42,12 @@ class Snake:
 			ret[i+SNAKE_OFFSET]=self.snake[i]
 		return ret
 
+	def GetMap(self):
+		map=self.map+np.ones(self.map.shape,dtype=np.int)
+		e=np.eye(self.nLen+2)
+		return e[map]
+		#return np.copy(self.map)
+
 	def Step(self,action):
 		pos=self.IndexToPos(self.snake[0])
 		if action==0:
