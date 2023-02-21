@@ -4,7 +4,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>0e56c454-1149-4bc6-8105-01450740ddae</ProjectGuid>
     <ProjectHome>.</ProjectHome>
-    <StartupFile>Player.py</StartupFile>
+    <StartupFile>QLearningAgent.py</StartupFile>
     <SearchPath>
     </SearchPath>
     <WorkingDirectory>.</WorkingDirectory>
@@ -12,7 +12,7 @@
     <Name>PySnakeAI</Name>
     <RootNamespace>PySnakeAI</RootNamespace>
     <LaunchProvider>Standard Python launcher</LaunchProvider>
-    <CommandLineArguments>4 1000 3ca2c 3ctrain.log</CommandLineArguments>
+    <CommandLineArguments>qlearning.bin</CommandLineArguments>
     <EnableNativeCodeDebugging>False</EnableNativeCodeDebugging>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
@@ -36,6 +36,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="PySnakeAI.py" />
+    <Compile Include="QLearningAgent.py" />
     <Compile Include="TDLearn.py">
       <SubType>Code</SubType>
     </Compile>
